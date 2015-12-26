@@ -18,18 +18,18 @@ package com.android.gallery3d.filtershow.filters;
 
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
-import android.support.v8.renderscript.Allocation;
-import android.support.v8.renderscript.Element;
-import android.support.v8.renderscript.RenderScript;
-import android.support.v8.renderscript.Script.LaunchOptions;
-import android.support.v8.renderscript.Type;
+import android.renderscript.Allocation;
+import android.renderscript.Element;
+import android.renderscript.RenderScript;
+import android.renderscript.Script.LaunchOptions;
+import android.renderscript.Type;
 
 import com.android.gallery3d.R;
 import com.android.gallery3d.filtershow.pipeline.FilterEnvironment;
 
 public class ImageFilterChanSat extends ImageFilterRS {
     private static final String LOGTAG = "ImageFilterChanSat";
-    private ScriptC_saturation mScript;
+    // private ScriptC_saturation mScript; // not supported
     private Bitmap mSourceBitmap;
 
     private static final int STRIP_SIZE = 64;
@@ -58,10 +58,11 @@ public class ImageFilterChanSat extends ImageFilterRS {
 
     @Override
     public void resetScripts() {
-        if (mScript != null) {
+    	// not supported
+        /*if (mScript != null) {
             mScript.destroy();
             mScript = null;
-        }
+        }*/
     }
     @Override
     protected void createFilter(android.content.res.Resources res, float scaleFactor,
@@ -77,7 +78,7 @@ public class ImageFilterChanSat extends ImageFilterRS {
         Type.Builder tb_float = new Type.Builder(rsCtx, Element.F32_4(rsCtx));
         tb_float.setX(in.getType().getX());
         tb_float.setY(in.getType().getY());
-        mScript = new ScriptC_saturation(rsCtx);
+        // mScript = new ScriptC_saturation(rsCtx); // not supported
     }
 
 
@@ -120,9 +121,9 @@ public class ImageFilterChanSat extends ImageFilterRS {
         Matrix m = getOriginalToScreenMatrix(width, height);
 
 
-        mScript.set_saturation(sat);
+        /*mScript.set_saturation(sat);
 
-        mScript.invoke_setupGradParams();
+        mScript.invoke_setupGradParams();*/ // not supported
         runSelectiveAdjust(
                 getInPixelsAllocation(), getOutPixelsAllocation());
 
@@ -142,7 +143,7 @@ public class ImageFilterChanSat extends ImageFilterRS {
                 endy = height;
             }
             options.setY(ty, endy);
-            mScript.forEach_selectiveAdjust(in, out, options);
+            // mScript.forEach_selectiveAdjust(in, out, options); // not supported
             if (checkStop()) {
                 return;
             }

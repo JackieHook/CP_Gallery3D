@@ -18,7 +18,7 @@ package com.android.gallery3d.filtershow.filters;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.support.v8.renderscript.*;
+import android.renderscript.*;
 import android.util.Log;
 import android.content.res.Resources;
 import com.android.gallery3d.R;
@@ -33,7 +33,7 @@ public abstract class ImageFilterRS extends ImageFilter {
 
     public static boolean PERF_LOGGING = false;
 
-    private static ScriptC_grey mGreyConvert = null;
+    // private static ScriptC_grey mGreyConvert = null; // not supported
     private static RenderScript mRScache = null;
 
     private volatile boolean mResourcesLoaded = false;
@@ -158,10 +158,11 @@ public abstract class ImageFilterRS extends ImageFilter {
     }
 
     private static Allocation convertRGBAtoA(RenderScript RS, Bitmap bitmap) {
-        if (RS != mRScache || mGreyConvert == null) {
+    	// not supported
+    	/*if (RS != mRScache || mGreyConvert == null) {
             mGreyConvert = new ScriptC_grey(RS);
             mRScache = RS;
-        }
+        }*/
 
         Type.Builder tb_a8 = new Type.Builder(RS, Element.A_8(RS));
 
@@ -175,7 +176,7 @@ public abstract class ImageFilterRS extends ImageFilter {
         Allocation bitmapAlloc = Allocation.createTyped(RS, tb_a8.create(),
                                                         Allocation.MipmapControl.MIPMAP_NONE,
                                                         Allocation.USAGE_SCRIPT | Allocation.USAGE_GRAPHICS_TEXTURE);
-        mGreyConvert.forEach_RGBAtoA(bitmapTemp, bitmapAlloc);
+        // mGreyConvert.forEach_RGBAtoA(bitmapTemp, bitmapAlloc); // not supported
         bitmapTemp.destroy();
         return bitmapAlloc;
     }

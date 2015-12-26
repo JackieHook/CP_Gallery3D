@@ -26,11 +26,11 @@ import com.android.gallery3d.filtershow.pipeline.FilterEnvironment;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Matrix;
-import android.support.v8.renderscript.Allocation;
-import android.support.v8.renderscript.Element;
-import android.support.v8.renderscript.RenderScript;
-import android.support.v8.renderscript.Script.LaunchOptions;
-import android.support.v8.renderscript.Type;
+import android.renderscript.Allocation;
+import android.renderscript.Element;
+import android.renderscript.RenderScript;
+import android.renderscript.Script.LaunchOptions;
+import android.renderscript.Type;
 import android.util.Log;
 
 import com.android.gallery3d.R;
@@ -38,7 +38,7 @@ import com.android.gallery3d.filtershow.pipeline.FilterEnvironment;
 
 public class ImageFilterGrad extends ImageFilterRS {
     private static final String LOGTAG = "ImageFilterGrad";
-    private ScriptC_grad mScript;
+    // private ScriptC_grad mScript; // not supported
     private Bitmap mSourceBitmap;
     private static final int RADIUS_SCALE_FACTOR = 160;
 
@@ -68,10 +68,11 @@ public class ImageFilterGrad extends ImageFilterRS {
 
     @Override
     public void resetScripts() {
-        if (mScript != null) {
+    	// not supported
+    	/*if (mScript != null) {
             mScript.destroy();
             mScript = null;
-        }
+        }*/
     }
     @Override
     protected void createFilter(android.content.res.Resources res, float scaleFactor,
@@ -87,7 +88,7 @@ public class ImageFilterGrad extends ImageFilterRS {
         Type.Builder tb_float = new Type.Builder(rsCtx, Element.F32_4(rsCtx));
         tb_float.setX(in.getType().getX());
         tb_float.setY(in.getType().getY());
-        mScript = new ScriptC_grad(rsCtx);
+        // mScript = new ScriptC_grad(rsCtx); // not supported
     }
 
 
@@ -111,10 +112,10 @@ public class ImageFilterGrad extends ImageFilterRS {
 
     @Override
     protected void bindScriptValues() {
-        int width = getInPixelsAllocation().getType().getX();
+    	/*int width = getInPixelsAllocation().getType().getX();
         int height = getInPixelsAllocation().getType().getY();
         mScript.set_inputWidth(width);
-        mScript.set_inputHeight(height);
+        mScript.set_inputHeight(height);*/ // not supported
     }
 
     @Override
@@ -141,7 +142,8 @@ public class ImageFilterGrad extends ImageFilterRS {
             y2[i] = (int) coord[1];
         }
 
-        mScript.set_mask(mParameters.getMask());
+        // not supported
+        /*mScript.set_mask(mParameters.getMask());
         mScript.set_xPos1(x1);
         mScript.set_yPos1(y1);
         mScript.set_xPos2(x2);
@@ -151,7 +153,7 @@ public class ImageFilterGrad extends ImageFilterRS {
         mScript.set_contrast(mParameters.getContrast());
         mScript.set_saturation(mParameters.getSaturation());
 
-        mScript.invoke_setupGradParams();
+        mScript.invoke_setupGradParams();*/
         runSelectiveAdjust(
                 getInPixelsAllocation(), getOutPixelsAllocation());
 
@@ -171,7 +173,7 @@ public class ImageFilterGrad extends ImageFilterRS {
                 endy = height;
             }
             options.setY(ty, endy);
-            mScript.forEach_selectiveAdjust(in, out, options);
+            // mScript.forEach_selectiveAdjust(in, out, options); // not supported
             if (checkStop()) {
                 return;
             }

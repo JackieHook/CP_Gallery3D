@@ -22,7 +22,7 @@ import com.android.gallery3d.filtershow.editors.BasicEditor;
 public class ImageFilterSharpen extends ImageFilterRS {
     private static final String SERIALIZATION_NAME = "SHARPEN";
     private static final String LOGTAG = "ImageFilterSharpen";
-    private ScriptC_convolve3x3 mScript;
+    // private ScriptC_convolve3x3 mScript; // not supported
 
     private FilterBasicRepresentation mParameters;
 
@@ -54,18 +54,20 @@ public class ImageFilterSharpen extends ImageFilterRS {
 
     @Override
     public void resetScripts() {
-        if (mScript != null) {
+    	// not supported
+        /*if (mScript != null) {
             mScript.destroy();
             mScript = null;
-        }
+        }*/
     }
 
     @Override
     protected void createFilter(android.content.res.Resources res, float scaleFactor,
             int quality) {
-        if (mScript == null) {
+    	// not supported
+    	/*if (mScript == null) {
             mScript = new ScriptC_convolve3x3(getRenderScriptContext());
-        }
+        }*/
     }
 
     private void computeKernel() {
@@ -83,15 +85,16 @@ public class ImageFilterSharpen extends ImageFilterRS {
         f[6] = -p;
         f[7] = -p;
         f[8] = -p;
-        mScript.set_gCoeffs(f);
+        // mScript.set_gCoeffs(f); // not supported
     }
 
     @Override
     protected void bindScriptValues() {
-        int w = getInPixelsAllocation().getType().getX();
+    	// not supported
+        /*int w = getInPixelsAllocation().getType().getX();
         int h = getInPixelsAllocation().getType().getY();
         mScript.set_gWidth(w);
-        mScript.set_gHeight(h);
+        mScript.set_gHeight(h);*/
     }
 
     @Override
@@ -100,9 +103,10 @@ public class ImageFilterSharpen extends ImageFilterRS {
             return;
         }
         computeKernel();
-        mScript.set_gIn(getInPixelsAllocation());
+        // not supported
+        /*mScript.set_gIn(getInPixelsAllocation());
         mScript.bind_gPixels(getInPixelsAllocation());
-        mScript.forEach_root(getInPixelsAllocation(), getOutPixelsAllocation());
+        mScript.forEach_root(getInPixelsAllocation(), getOutPixelsAllocation());*/
     }
 
 }

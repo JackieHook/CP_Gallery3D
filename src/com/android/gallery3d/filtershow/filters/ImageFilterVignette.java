@@ -24,17 +24,17 @@ import android.graphics.Rect;
 import com.android.gallery3d.R;
 import com.android.gallery3d.filtershow.imageshow.MasterImage;
 import com.android.gallery3d.filtershow.pipeline.FilterEnvironment;
-import android.support.v8.renderscript.Allocation;
-import android.support.v8.renderscript.Element;
-import android.support.v8.renderscript.RenderScript;
-import android.support.v8.renderscript.Script.LaunchOptions;
-import android.support.v8.renderscript.Type;
+import android.renderscript.Allocation;
+import android.renderscript.Element;
+import android.renderscript.RenderScript;
+import android.renderscript.Script.LaunchOptions;
+import android.renderscript.Type;
 import android.util.Log;
 
 public class ImageFilterVignette extends ImageFilterRS {
     private static final String LOGTAG = "ImageFilterVignette";
     private Bitmap mOverlayBitmap;
-    private ScriptC_vignette mScript;
+    // private ScriptC_vignette mScript;// not supported
     FilterVignetteRepresentation mParameters;
     public static final int MODE_VIGNETTE = FilterVignetteRepresentation.MODE_VIGNETTE;
     public static final int MODE_EXPOSURE = FilterVignetteRepresentation.MODE_EXPOSURE;
@@ -79,7 +79,7 @@ public class ImageFilterVignette extends ImageFilterRS {
     protected void createFilter(Resources res, float scaleFactor, int quality) {
         RenderScript rsCtx = getRenderScriptContext();
 
-        mScript = new ScriptC_vignette(rsCtx);
+        /*mScript = new ScriptC_vignette(rsCtx);*/ // not supported
     }
 
     @Override
@@ -110,7 +110,8 @@ public class ImageFilterVignette extends ImageFilterRS {
             ry = c[1];
         }
 
-        mScript.set_inputWidth(w);
+        // not supported
+        /*mScript.set_inputWidth(w);
         mScript.set_inputHeight(h);
         int v = mParameters.getValue(MODE_VIGNETTE);
         mScript.set_finalSubtract((v < 0) ? v : 0);
@@ -123,7 +124,7 @@ public class ImageFilterVignette extends ImageFilterRS {
         mScript.set_radiusy(ry);
         mScript.set_strength(mParameters.getValue(MODE_FALLOFF)/10.f);
         mScript.invoke_setupVignetteParams();
-        mScript.forEach_vignette(getInPixelsAllocation(), getOutPixelsAllocation());
+        mScript.forEach_vignette(getInPixelsAllocation(), getOutPixelsAllocation());*/
     }
 
     @Override
@@ -158,9 +159,10 @@ public class ImageFilterVignette extends ImageFilterRS {
 
     @Override
     protected void bindScriptValues() {
-        int width = getInPixelsAllocation().getType().getX();
+    	// not supported
+        /*int width = getInPixelsAllocation().getType().getX();
         int height = getInPixelsAllocation().getType().getY();
         mScript.set_inputWidth(width);
-        mScript.set_inputHeight(height);
+        mScript.set_inputHeight(height);*/
     }
 }
